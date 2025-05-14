@@ -22,16 +22,23 @@
     };
 
     window.onload = function () {
-      // Extract the last part of the URL (after /a/)
-      const path = window.location.pathname.split("/a/")[1]?.replace(/^\//, "").replace(/\/$/, "");
-      const dest = links[path];
+      // Extract the part of the URL after "/a/"
+      const path = window.location.pathname.match(/^\/a\/([^\/]+)$/)?.[1];
 
-      if (dest) {
-        window.location.href = dest;
+      if (path) {
+        const dest = links[path];
+        if (dest) {
+          window.location.href = dest;
+        } else {
+          document.body.innerHTML = `
+            <h1 style="color: red;">404 - Link Not Found</h1>
+            <p>No redirect found for "<code>${path}</code>"</p>
+          `;
+        }
       } else {
         document.body.innerHTML = `
-          <h1 style="color: red;">404 - Link Not Found</h1>
-          <p>No redirect found for "<code>${path || ''}</code>"</p>
+          <h1 style="color: red;">404 - Invalid URL</h1>
+          <p>The URL format is incorrect. Please make sure it's in the form <code>/a/linkcode</code>.</p>
         `;
       }
     };
