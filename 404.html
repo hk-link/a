@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <script>
+    const links = {
+      "example": "https://example.com",
+      "rr": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "yt": "https://youtube.com",
+      "home": "https://homekit-0.github.io"
+      // Add more short codes here
+    };
+
+    window.onload = function () {
+      const path = window.location.pathname.split("/a/")[1]?.replace(/\/$/, "");
+      const dest = links[path];
+
+      if (dest) {
+        window.location.href = dest;
+      } else {
+        document.body.innerHTML = `
+          <h1>404 - Link Not Found</h1>
+          <p>No redirect found for "<code>${path || ''}</code>"</p>
+        `;
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1>Redirecting...</h1>
+</body>
+</html>
