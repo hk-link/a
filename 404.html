@@ -18,10 +18,11 @@
       "rr": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "yt": "https://youtube.com",
       "chatindra": "https://chatgpt.com"
+      "dadgpt": "https://chatgpt.com"
     };
 
     window.onload = function () {
-      const path = window.location.pathname.split("/a/")[1]?.replace(/\/$/, "");
+      const path = window.location.pathname.replace(/^\\//, "").replace(/\\/$/, "");
       const dest = links[path];
 
       if (dest) {
