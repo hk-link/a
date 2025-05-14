@@ -9,81 +9,29 @@
       font-family: 'Poppins', sans-serif;
       color: #007BFF;
       text-align: center;
-      padding: 20px;
-    }
-    textarea {
-      width: 90%;
-      height: 300px;
-      margin-top: 20px;
-      font-family: monospace;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding-top: 50px;
     }
   </style>
   <script>
-    const adminCode = "ADMIN_TRUE";
-    const query = new URLSearchParams(window.location.search);
-    const isAdmin = query.get("admin") === adminCode;
+    const links = {
+      "example": "https://example.com",
+      "rr": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "yt": "https://youtube.com",
+      "chatindra": "https://chatgpt.com"
+      // Add more short codes here
+    };
 
-    async function loadLinks() {
-      try {
-        const res = await fetch("links.json");
-        const data = await res.json();
-        return data;
-      } catch {
-        return {};
-      }
-    }
-
-    function showAdminPanel(links) {
-      const textarea = document.createElement("textarea");
-      textarea.value = JSON.stringify(links, null, 2);
-
-      const button = document.createElement("button");
-      button.textContent = "Download Updated links.json";
-      button.onclick = () => {
-        const blob = new Blob([textarea.value], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "links.json";
-        a.click();
-      };
-
-      document.body.innerHTML = "<h1>Admin Panel</h1><p>Edit your links below:</p>";
-      document.body.appendChild(textarea);
-      document.body.appendChild(button);
-    }
-
-    async function redirect() {
+    window.onload = function () {
       const path = window.location.pathname.split("/a/")[1]?.replace(/\/$/, "");
-      try {
-        const res = await fetch("links.json");
-        const links = await res.json();
-        const dest = links[path];
+      const dest = links[path];
 
-        if (dest) {
-          window.location.href = dest;
-        } else {
-          document.body.innerHTML = `
-            <h1 style="color: red;">404 - Link Not Found</h1>
-            <p>No redirect found for "<code>\${path || ''}</code>"</p>
-          `;
-        }
-      } catch (e) {
-        document.body.innerHTML = "<h1>Failed to load links.json</h1>";
-      }
-    }
-
-    window.onload = async () => {
-      if (isAdmin) {
-        const links = await loadLinks();
-        showAdminPanel(links);
+      if (dest) {
+        window.location.href = dest;
       } else {
-        redirect();
+        document.body.innerHTML = `
+          <h1 style="color: red;">404 - Link Not Found</h1>
+          <p>No redirect found for "<code>${path || ''}</code>"</p>
+        `;
       }
     };
   </script>
